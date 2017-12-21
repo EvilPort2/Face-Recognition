@@ -12,8 +12,9 @@ print (44 * "-")
 
 def createDataset():
     faceCascPath = "haarcascade_frontalface_default.xml"
-
+    eyeCascadePath = "haarcascade_eye.xml"
     faceCascade = cv2.CascadeClassifier(faceCascPath)
+    eyeCascade = cv2.CascadeClassifier(eyeCascadePath)
 
     while True:
         try:
@@ -70,7 +71,8 @@ def createDataset():
             name = str(input("Enter new name: "))
             occupation = str(input("Enter new occupation: "))
             gender = str(input("Enter new gender: "))
-            for f in glob.glob("user." + str(id) + "*"):
+            for f in glob.glob("dataset/user." + str(id) + "*.jpg"):
+                print(f)
                 os.remove(f)
             cmd = "INSERT INTO People VALUES(" + str(id) + ",\"" + name + "\",\"" + occupation + "\",\"" + gender + "\",\"" + str(j)+ "\")"
             conn.execute(cmd)
@@ -91,12 +93,15 @@ def createDataset():
     while cam.isOpened():
         ret, img = cam.read()
         gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-        faces = faceCascade.detectMultiScale(gray, 1.1, 5)
+        faces = faceCascade.detectMultiScale(gray, 1.1, 5, flags = cv2.CASCADE_SCALE_IMAGE)
         for (x, y, w, h) in faces:
-            i = i + 1
-            cv2.imwrite("dataset/user." + str(id) + "." + str(i) + ".jpg", gray[y:y + h, x:x + w])
-            cv2.rectangle(img, (x, y), (x + w, y + h), (0, 0, 255), 2)
-            cv2.waitKey(10)
+            face = gray[y:y+h, x:x+w]
+            eyes = eyeCascade.detectMultiScale(face, 1.1, 5, flags = cv2.CASCADE_SCALE_IMAGE)
+            if len(eyes) == 2:
+                cv2.imwrite("dataset/user." + str(id) + "." + str(i) + ".jpg", gray[y:y + h, x:x + w])
+                cv2.rectangle(img, (x, y), (x + w, y + h), (0, 0, 255), 2)
+                i = i + 1
+            cv2.waitKey(1)
         cv2.imshow("Webcam Face Detection", cv2.flip(img,1))
         cv2.waitKey(1)
         if i > j:
