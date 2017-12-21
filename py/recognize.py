@@ -33,7 +33,17 @@ def faceRecognize():
                     name = "Unknown"
                     occupation = "Unknown"
                     gender = "Unknown"
-                cv2.rectangle(img, (x, y), (x + w, y + h), 2)
+	            cv2.rectangle(img, (x, y), (x + w, y + h), 2)
+	            id, confidence = recog.predict(gray[y:y + h, x:x + w])
+	            if confidence < 50:
+	                profile = getProfileDataById(str(id))
+	                name = profile[1]
+	                occupation = profile[2]
+	                gender = profile[3]
+	            else:
+	                name = "Unknown"
+	                occupation = "Unknown"
+	                gender = "Unknown"
 
                 cv2.putText(img, "Name- " + name, (x, y + h), cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 0), 2)
                 cv2.putText(img, "Occupation- " + occupation, (x, y + h + 10), cv2.FONT_HERSHEY_PLAIN, 1, (255, 0, 0), 2)
