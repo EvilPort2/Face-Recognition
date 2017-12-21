@@ -20,7 +20,7 @@ def faceRecognize():
         for (x, y, w, h) in faces:
             cv2.rectangle(img, (x, y), (x + w, y + h), 2)
             id, confidence = recog.predict(gray[y:y + h, x:x + w])
-            if confidence < 80:
+            if confidence < 50:
                 profile = getProfileDataById(str(id))
                 name = profile[1]
                 occupation = profile[2]
