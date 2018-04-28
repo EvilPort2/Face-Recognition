@@ -5,6 +5,7 @@
 4. Dlib
 5. numpy
 6. Keras
+7. imutils
 
 ## How to use the files (stepwise)
 
@@ -21,7 +22,7 @@
 6. In the faces directory you will see some subfolders named as '0', '1', '2' etc. These numbers represent the face_id. Inside each folder you will see 300 images of the person taken from the webcam.
 7. You can add your own images that are taken from your phone or any other device inside the new_faces/&lt;face_id&gt; depending on your face_id.
 
-### Storing 128 facial measurements or aka embeddings in a csv file
+### Storing 128 facial measurements aka embeddings in a csv file
 
 1. Run the store_facial_features.py file
 	
@@ -64,6 +65,15 @@
 2. Run the recognition.py file
 		
 		python recognize.py
+
+### Lockscreen (Experimantal)
+
+1. If you want to unlock your computer using your face run the lockscreen.py
+	
+		python lockscreen.py
+2. You won't be able to use the keyboard and mouse when the computer is locked.
+3. Also a green text saying 'Computer is locked' will be displayed on the screen
+4. Highly experimantal. In case of a crash hit Ctrl+Alt+Delete
 
 ### Generating the Intel Movidius NCS graph
 
